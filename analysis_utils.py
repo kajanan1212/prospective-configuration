@@ -414,7 +414,7 @@ def nature_pre(df, our_name='PC', base_name='BP'):
     return df
 
 
-def nature_relplot(kind='line', sharey=True, sharex=True, legend_out=False, xlabel='Custom X Label', ylabel='Custom Y Label', height=5, aspect=2,**kwargs):
+def nature_relplot(kind='line', sharey=True, sharex=True, legend_out=False, height=5, aspect=2,**kwargs):
     """
     """
     additional_kwargs = dict()
