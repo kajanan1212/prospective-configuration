@@ -454,8 +454,6 @@ def nature_relplot(kind='line', sharey=True, sharex=True, legend_out=False, heig
             'sharey': sharey,
             'sharex': sharex,
         },
-        xlabel=xlabel, 
-        ylabel=ylabel, 
         height=5,
         aspect=2,
         **kwargs,
