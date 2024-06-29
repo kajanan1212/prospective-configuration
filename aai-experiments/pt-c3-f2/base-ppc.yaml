@@ -159,7 +159,6 @@ config:
                     stride: 2
                     padding: 1
                     bias: False
-
             cnn_1:
                 fn: "torch.nn.Conv2d"
                 kwargs:
