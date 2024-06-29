@@ -1,7 +1,7 @@
 .tmp.driveupload
 
 # log files by wandb
-wandb/
+wandb/ 
 
 # log files by PCTrainer plot_progress_at
 plot_progress/
