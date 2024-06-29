@@ -27,7 +27,11 @@ from ray.tune.experiment.trial import Trial
 from ray.tune.result import DEFAULT_METRIC, EXPR_PARAM_FILE, EXPR_PROGRESS_FILE, \
     CONFIG_PREFIX, TRAINING_ITERATION
 from ray.tune.search.variant_generator import generate_variants
+import seaborn as sns
+import logging
 
+# Configure logging
+logging.basicConfig(level=logging.INFO) 
 
 logger = u.getLogger(__name__)
 
@@ -421,47 +425,66 @@ def nature_pre(df, our_name='PC', base_name='BP'):
 
 def nature_relplot(kind='line', sharey=True, sharex=True, legend_out=False, **kwargs):
     """
+    Customized Seaborn relplot function for different plot kinds.
+    
+    Parameters:
+    - kind: str, default='line'
+        Type of plot ('line', 'scatter', etc.)
+    - sharey: bool, default=True
+        Share y-axis among subplots
+    - sharex: bool, default=True
+        Share x-axis among subplots
+    - legend_out: bool, default=False
+        Whether to place legend outside the plot
+    - **kwargs:
+        Additional keyword arguments passed to Seaborn's relplot function
+        
+    Returns:
+    - Seaborn FacetGrid object
     """
     additional_kwargs = dict()
-    if kind=='line':
-        # standard error
-        # historically, I was using errorbar=('ci', 68),
-        # this is because 68%CI = Score ±SEM, see https://www.statisticshowto.com/standard-error-of-measurement/
-        # but latter Rafal noticed that the error bars could be asymmetric,
-        # the reason is that
-        # Seaborn's errorbar function produces asymmetric error bars by default because it uses the bootstrapped confidence intervals for the error bars.
-        # This means that it samples the data with replacement to calculate the confidence intervals.
-        # Bootstrapping is a way to estimate the sampling distribution of a statistic (such as the mean or standard deviation) using the data itself,
-        # without making assumptions about the underlying distribution.
-        # This is a robust method that can work well even when the underlying distribution is not normal.
-        # However, it can result in asymmetric error bars.
-        # seaborn's documentation: https://seaborn.pydata.org/tutorial/error_bars.html#confidence-interval-error-bars
-        # so I switched to 'se'
-        # errorbar=("se"),
-        additional_kwargs['errorbar']=('ci', 68)
-        # bars for error
-        additional_kwargs['err_style']='bars'
-        additional_kwargs['err_kws']={
-            # settings for error bars
+    
+    if kind == 'line':
+        # Configure error bars for line plot
+        additional_kwargs['err_style'] = 'bars'
+        additional_kwargs['err_kws'] = {
             'capsize': 6,
             'capthick': 2,
         }
-    return sns.relplot(
-        kind=kind,
-        # with markers
-        markers=True,
-        facet_kws={
-            # legend inside
-            'legend_out': legend_out,
-            # titles of row and col on margins
-            'margin_titles': True,
-            # share axis
-            'sharey': sharey,
-            'sharex': sharex,
-        },
-        **kwargs,
-        **additional_kwargs,
-    )
+        additional_kwargs['ci'] = 68  # Adjust confidence interval if needed
+    
+    # Log input parameters for debugging
+    logging.info(f"Creating {kind} plot with parameters: {kwargs}")
+    
+    try:
+        # Attempt to create the Seaborn relplot
+        plot = sns.relplot(
+            kind=kind,
+            markers=True,  # Show markers on the plot
+            facet_kws={
+                'legend_out': legend_out,  # Place legend outside the plot if specified
+                'margin_titles': True,     # Show titles on margins
+                'sharey': sharey,          # Share y-axis among subplots
+                'sharex': sharex,          # Share x-axis among subplots
+            },
+            **kwargs,
+            **additional_kwargs,
+        )
+        logging.info(f"{kind} plot successfully created.")
+        return plot
+    
+    except Exception as e:
+        # Log and raise any exceptions encountered during plot creation
+        logging.error(f"Error encountered while creating {kind} plot: {str(e)}")
+        raise
+
+# Example usage:
+# Replace with your actual data and plot parameters
+try:
+    g = nature_relplot(data=df, y='Min of test__classification_error', x='pc_learning_rate', hue='Rule', style='Rule').set(xscale='log')
+except Exception as e:
+    print(f"Failed to create plot: {str(e)}")
+
 
 
 def nature_relplot_curve(sharey=True, sharex=True, legend_out=False, **kwargs):
