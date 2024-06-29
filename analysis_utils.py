@@ -202,6 +202,7 @@ class Analysis:
         fail_count = 0
         for path in self._get_trial_paths():
             try:
+                print(EXPR_PROGRESS_FILE)
                 self.trial_dataframes[path] = pd.read_csv(
                     os.path.join(path, EXPR_PROGRESS_FILE))
             except Exception:
