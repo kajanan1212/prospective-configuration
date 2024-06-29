@@ -25,8 +25,11 @@ def create_model(predictive_coding, acf, model_type_order, cnn_layers, linear_la
                 )
             elif model_type == 'Dropout2d':
                 model_ = torch.nn.Dropout2d()
+            elif model_type == 'Dropout':
+                continue
             else:
                 raise ValueError('model_type not found')
+
             model.append(model_)
 
     model.append(torch.nn.Flatten())
@@ -47,6 +50,9 @@ def create_model(predictive_coding, acf, model_type_order, cnn_layers, linear_la
                     model_ = eval(acf)()
                 elif model_type == 'PCLayer':
                     model_ = pc.PCLayer()
+                elif model_type == 'Dropout':
+                    model_ = torch.nn.Dropout()
+
                 model.append(model_)
 
     if loss_fn == 'cross_entropy':

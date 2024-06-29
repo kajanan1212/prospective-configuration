@@ -176,7 +176,7 @@ config:
                     in_features: 8192
                     out_features: 512
                     bias: True
-            linear_1:
+            last:
                 fn: "torch.nn.Linear"
                 kwargs:
                     in_features: 512
