@@ -8,7 +8,8 @@ import ray
 
 import utils as u
 
-os.environ['RESULTS_DIR'] = str(Path(__file__).parent.joinpath('./results').resolve())
+results_path = "../drive/MyDrive/colab-docs/advanced-ai/results"
+os.environ['RESULTS_DIR'] = str(Path(__file__).parent.joinpath(results_path).resolve())
 os.environ['DATA_DIR'] = str(Path(__file__).parent.joinpath('./data').resolve())
 
 logger = u.getLogger(__name__)
