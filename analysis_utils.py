@@ -423,7 +423,7 @@ def nature_pre(df, our_name='PC', base_name='BP'):
     return df
 
 
-def nature_relplot(kind='line', sharey=True, sharex=True, legend_out=False, **kwargs):
+def nature_relplot(kind='line', sharey=True, sharex=True, legend_out=False, save_data_path=None, **kwargs):
     """
     Customized Seaborn relplot function for different plot kinds.
     
@@ -436,6 +436,8 @@ def nature_relplot(kind='line', sharey=True, sharex=True, legend_out=False, **kw
         Share x-axis among subplots
     - legend_out: bool, default=False
         Whether to place legend outside the plot
+    - save_data_path: str or None, default=None
+        Path to save the DataFrame to CSV format
     - **kwargs:
         Additional keyword arguments passed to Seaborn's relplot function
         
@@ -451,7 +453,7 @@ def nature_relplot(kind='line', sharey=True, sharex=True, legend_out=False, **kw
             'capsize': 6,
             'capthick': 2,
         }
-        additional_kwargs['ci'] = 68  # Adjust confidence interval if needed
+        additional_kwargs['errorbar'] = ('ci', 68)  # Adjust confidence interval if needed
     
     # Log input parameters for debugging
     logging.info(f"Creating {kind} plot with parameters: {kwargs}")
@@ -471,6 +473,12 @@ def nature_relplot(kind='line', sharey=True, sharex=True, legend_out=False, **kw
             **additional_kwargs,
         )
         logging.info(f"{kind} plot successfully created.")
+        
+        # Save DataFrame to CSV if save_data_path is provided
+        if save_data_path:
+            kwargs.get('data').to_csv(save_data_path, index=False)
+            logging.info(f"DataFrame saved to: {save_data_path}")
+        
         return plot
     
     except Exception as e:
@@ -478,12 +486,6 @@ def nature_relplot(kind='line', sharey=True, sharex=True, legend_out=False, **kw
         logging.error(f"Error encountered while creating {kind} plot: {str(e)}")
         raise
 
-# Example usage:
-# Replace with your actual data and plot parameters
-try:
-    g = nature_relplot(data=df, y='Min of test__classification_error', x='pc_learning_rate', hue='Rule', style='Rule').set(xscale='log')
-except Exception as e:
-    print(f"Failed to create plot: {str(e)}")
 
 
 
