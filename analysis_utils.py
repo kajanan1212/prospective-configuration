@@ -370,6 +370,7 @@ class Analysis:
 def nature_pre(df, our_name='PC', base_name='BP'):
 
     # rename
+    print(df.head())
     if 'PC' in df.columns:
         df.insert(
             1, 'Rule',
