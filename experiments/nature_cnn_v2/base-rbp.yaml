@@ -5,9 +5,9 @@ run_or_experiment: "SupervisedLearningTrainable"
 
 resources_per_trial:
     cpu: 1
-#    gpu: "fit_cpu"
+    gpu: "fit_cpu"
     # debug
-    gpu: 0.33
+    # gpu: 0
 stop:
     is_num_iterations_reached: 1
 # max_failures: -1 # keep retry if fail, it could be recourses shortage, not recommended as it produces lots of log files
@@ -25,20 +25,20 @@ config:
     seed:
         grid_search:
             - 1482555873
-#            - 698841058
-#            - 2283198659
+            - 698841058
+            - 2283198659
 
-    num_iterations: 2
+    num_iterations: 80
     # debug
     # num_iterations: 2
 
     dataset: CIFAR10
 
-    partial_num: 100
+    partial_num: 5000
     # debug
     # partial_num: 100
 
-    batch_size: 20
+    batch_size: 200
 
     # exec-code before/after the setup of the specified Trainable
     before_DatasetLearningTrainable_setup_code: |-
@@ -61,7 +61,7 @@ config:
                     )(
                         os.environ.get('DATA_DIR'),
                         train=train,
-                        download=True,
+                        download=False,
                         transform=transforms.Compose(transform),
                         target_transform=transforms.Compose(target_transform)
                     ),
@@ -114,16 +114,15 @@ config:
         optimizer_p_kwargs:
             lr:
                 grid_search:
-                    - 0.01
                     # - 0.005
                     # - 0.001
                     # - 0.0005
-#                    - 0.00025
-#                    - 0.0001
-#                    - 0.000075
-#                    - 0.00005
-#                    - 0.000025
-#                    - 0.00001
+                    - 0.00025
+                    - 0.0001
+                    - 0.000075
+                    - 0.00005
+                    - 0.000025
+                    - 0.00001
                     # - 0.000005
                     # - 0.000001
                     # - 0.0000005
