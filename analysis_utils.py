@@ -79,6 +79,7 @@ class Analysis:
                  default_metric: Optional[str] = None,
                  default_mode: Optional[str] = None):
         experiment_dir = os.path.expanduser(experiment_dir)
+        print(experiment_dir)
         if not os.path.isdir(experiment_dir):
             raise ValueError(
                 "{} is not a valid directory.".format(experiment_dir))
