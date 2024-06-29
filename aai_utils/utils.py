@@ -27,6 +27,8 @@ def create_model(predictive_coding, acf, model_type_order, cnn_layers, linear_la
                 model_ = torch.nn.Dropout2d()
             elif model_type == 'Dropout':
                 continue
+            elif model_type == 'BatchNorm':
+                model_ = torch.nn.BatchNorm2d(cnn_layer['kwargs']['out_channels'])
             else:
                 raise ValueError('model_type not found')
 
@@ -52,6 +54,8 @@ def create_model(predictive_coding, acf, model_type_order, cnn_layers, linear_la
                     model_ = pc.PCLayer()
                 elif model_type == 'Dropout':
                     model_ = torch.nn.Dropout()
+                elif model_type == 'BatchNorm':
+                    model_ = torch.nn.BatchNorm1d(linear_layer['kwargs']['out_features'])
 
                 model.append(model_)
 
