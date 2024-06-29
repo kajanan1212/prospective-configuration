@@ -198,7 +198,7 @@ config:
         # import
         import predictive_coding as pc
         import torch.optim as optim
-        import experiments.nature_cnn_v2.utils as u
+        import aai_utils as u
 
         # create model
         self.model = u.create_model(
