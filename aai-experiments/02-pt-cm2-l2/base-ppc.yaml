@@ -148,7 +148,7 @@ config:
 
     model:
         acf: "torch.nn.ReLU"
-        model_type_order: "['Weights', 'PCLayer', 'Acf']"
+        model_type_order: "['Weights', 'PCLayer', 'Acf', 'MaxPool']"
         cnn_layers:
             cnn_0:
                 fn: "torch.nn.Conv2d"
@@ -156,7 +156,7 @@ config:
                     in_channels: 3
                     out_channels: 64
                     kernel_size: 3
-                    stride: 2
+                    stride: 1
                     padding: 1
                     bias: False
             cnn_1:
@@ -165,7 +165,7 @@ config:
                     in_channels: 64
                     out_channels: 128
                     kernel_size: 3
-                    stride: 2
+                    stride: 1
                     padding: 1
                     bias: False
         linear_layers:

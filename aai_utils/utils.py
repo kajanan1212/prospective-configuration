@@ -18,10 +18,13 @@ def create_model(predictive_coding, acf, model_type_order, cnn_layers, linear_la
                 model_ = eval(acf)()
             elif model_type == 'PCLayer':
                 model_ = pc.PCLayer()
-            elif model_type == 'Pool':
+            elif model_type == 'MaxPool':
                 model_ = torch.nn.MaxPool2d(
-                    kernel_size=3, stride=2, padding=1
+                    kernel_size=2,
+                    stride=2,
                 )
+            elif model_type == 'Dropout2d':
+                model_ = torch.nn.Dropout2d()
             else:
                 raise ValueError('model_type not found')
             model.append(model_)
@@ -65,5 +68,8 @@ def create_model(predictive_coding, acf, model_type_order, cnn_layers, linear_la
 
     # create sequential
     model = torch.nn.Sequential(*model)
+
+    print("MODEL ARCHITECTURE:\n")
+    print(model)
 
     return model
