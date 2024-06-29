@@ -8,7 +8,7 @@ import ssl
 import subprocess
 import time
 import copy
-import collections
+import collections.abc
 import json
 
 import matplotlib
@@ -1191,7 +1191,7 @@ def flatten_dict(d, parent_key='', sep=': ', level_limit=np.inf, level_count=0):
     level_count += 1
     for k, v in d.items():
         new_key = parent_key + sep + str(k) if parent_key else str(k)
-        if isinstance(v, collections.MutableMapping) and (level_count < level_limit):
+        if isinstance(v, collections.abc.MutableMapping) and (level_count < level_limit):
             items.extend(flatten_dict(v, new_key,
                                       sep=sep,
                                       level_limit=level_limit,

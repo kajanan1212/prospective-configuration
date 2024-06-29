@@ -1,0 +1,15 @@
+comet_ml
+Pillow
+plotly
+PyYAML
+ray
+Requests
+scipy
+seaborn
+tabulate
+torch
+torchvision
+tqdm
+visdom
+wandb
+ray[tune]

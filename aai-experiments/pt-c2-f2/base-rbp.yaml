@@ -5,9 +5,9 @@ run_or_experiment: "SupervisedLearningTrainable"
 
 resources_per_trial:
     cpu: 1
-#    gpu: "fit_cpu"
-    # debug
     gpu: 0.33
+    # debug
+    # gpu: 0
 stop:
     is_num_iterations_reached: 1
 # max_failures: -1 # keep retry if fail, it could be recourses shortage, not recommended as it produces lots of log files
@@ -61,7 +61,7 @@ config:
                     )(
                         os.environ.get('DATA_DIR'),
                         train=train,
-                        download=True,
+                        download=False,
                         transform=transforms.Compose(transform),
                         target_transform=transforms.Compose(target_transform)
                     ),
