@@ -56,6 +56,8 @@ def create_model(predictive_coding, acf, model_type_order, cnn_layers, linear_la
                     model_ = torch.nn.Dropout()
                 elif model_type == 'BatchNorm':
                     model_ = torch.nn.BatchNorm1d(linear_layer['kwargs']['out_features'])
+                else:
+                    continue
 
                 model.append(model_)
 
