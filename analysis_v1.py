@@ -19,10 +19,13 @@ import pickle
 import argparse
 import time
 import json
+import time
+import uuid
 
 # historically, we import these functions from analysis_utils for direct usage in exec commands, but it is better to use au.<the function>
 from analysis_utils import df2tb
-from analysis_utils import nature_pre, nature_post, nature_catplot, nature_catplot_sharey, nature_relplot, nature_relplot_curve, add_metric_per_group, select_rows_per_group
+from analysis_utils import nature_pre, nature_post, nature_catplot, nature_catplot_sharey, nature_relplot, \
+    nature_relplot_curve, add_metric_per_group, select_rows_per_group
 
 matplotlib.use("Agg")
 
@@ -188,8 +191,10 @@ if __name__ == "__main__":
         nargs="*",
         help="Cols to include when save to source csv.")
 
+
     def json_dict(value):
         return json.loads(value)
+
 
     parser.add_argument(
         "--source-columns-rename",
@@ -213,7 +218,8 @@ if __name__ == "__main__":
     experiment_name = args.output_dir.split('/')[-1]
 
     # uid is a unique identifier for runing this script (set as  the commit hash of the current git repo)
-    uid = u.get_commit_hash()
+    # uid = u.get_commit_hash()
+    uid = f"{int(time.time())}_{uuid.uuid4().hex[:8]}"
 
     # print title
     print(" TITLE: {}; UID: {} ".format(
@@ -224,11 +230,12 @@ if __name__ == "__main__":
 
     if args.visdom:
         import visdom
+
         # create visdom server
         viz = visdom.Visdom()
         # Environments are automatically hierarchically organized by the first _.
         # Thus remove the first _ from the experiment name and title, and join them by _.
-        viz_env = f"{os.path.basename(args.output_dir).replace('_','-')}_{args.title.replace('_','-')}"
+        viz_env = f"{os.path.basename(args.output_dir).replace('_', '-')}_{args.title.replace('_', '-')}"
         # clear the viz_env
         viz.delete_env(env=viz_env)
 
@@ -320,7 +327,7 @@ if __name__ == "__main__":
     # split df_ungrouped into groups
     if (len(args.group_by) > 0) or (len(eval(args.group_by_eval)) > 0):
         assert not (
-            (len(args.group_by) > 0) and (len(eval(args.group_by_eval)) > 0)
+                (len(args.group_by) > 0) and (len(eval(args.group_by_eval)) > 0)
         ), (
             f"You can only specify one of <-g>/<--group-by> and <--group-by-exec>. "
             f"Instead, you have args.group_by={args.group_by} and args.group_by_eval={args.group_by_eval}. "
@@ -339,7 +346,6 @@ if __name__ == "__main__":
 
     # warn if the number of groups is larger than
     if len(group_iterator) > 20:
-
         logger.warning(
             f"You are producing a large number ({len(group_iterator)}) of groups of visualization."
         )
@@ -379,6 +385,7 @@ if __name__ == "__main__":
 
         if args.comet:
             from comet_ml import Experiment
+
             # create agent
             comet_experiment = Experiment(
                 project_name=f"{experiment_name}--{args.title}",
@@ -388,6 +395,7 @@ if __name__ == "__main__":
 
         if args.wandb:
             import wandb
+
             # create agent
             wandb.init(
                 # Allow multiple `wandb.init()` calls in the same process.
@@ -402,6 +410,7 @@ if __name__ == "__main__":
             for k, v in d.items():
                 str_ += f"{k}={v}; "
             return str_
+
         kw_id_str = dict2str(kw_id)
 
         # print key word id
@@ -442,17 +451,17 @@ if __name__ == "__main__":
             df_source_data = df.copy()
             # # remove columns that are not source data
             # source_data_exclude_columns = [
-            #     'logdir', 
+            #     'logdir',
             #     'T', 'Optimizer for learn',
             #     'PCTrainer_kwargs: plot_progress_at', 'update_p_at',
             #     'PCTrainer_kwargs: update_x_at', 'x_lr_amplifier', 'x_lr_discount',
-            #     'MainT', 
+            #     'MainT',
             #     'before_DatasetLearningTrainable_creating_data_packs_code',
             #     'data_packs: train: data_loader', 'data_packs: train: do',
             #     'dataset_kwargs: data', 'dataset_kwargs: target', 'device',
             #     'learn_code', 'log_packs: w_1: at_data_pack', 'log_packs: w_1: log',
             #     'log_packs: w_2: at_data_pack', 'log_packs: w_2: log',
-            #     'model_creation_code', 
+            #     'model_creation_code',
             #     'train_on_batch_kwargs: is_checking_after_callback_after_t',
             #     'train_on_batch_kwargs: is_log_progress',
             #     'train_on_batch_kwargs: is_return_results_every_t', 'version',
@@ -486,7 +495,6 @@ if __name__ == "__main__":
                     [f'"{col}"' for col in df_source_data.columns]
                 )
                 input(f"Specify --source-include-columns from \n{cols_str}.")
-            
 
         if args.visdom:
             def get_viz_kwargs(prefix):
@@ -569,7 +577,7 @@ if __name__ == "__main__":
     mdoc.write("\n")
 
     # If the analysis takes more than 60 seconds, send an email to the user when it is done.
-    if (time.time()-starting_time) > 60.0:
+    if (time.time() - starting_time) > 60.0:
         report_via_email(
-            subject=f"Analysis [{args.title}] on [{args.log_dir.split('/')[-1 if args.log_dir[-1]!='/' else -2]}] done"
+            subject=f"Analysis [{args.title}] on [{args.log_dir.split('/')[-1 if args.log_dir[-1] != '/' else -2]}] done"
         )
