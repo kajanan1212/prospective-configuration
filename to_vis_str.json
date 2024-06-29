@@ -416,7 +416,7 @@
     "df['MCE'].iloc[-1]": "Last of MCE",
     "df['test__classification_error'].iloc[-1]": "Last of test__classification_error",
     "df['test__classification_error'].iloc[0]": "First of test__classification_error",
-    "df['test__classification_error'].min()": "min of test__classification_error",
+    "df['test__classification_error'].min()": "Min of test__classification_error",
     "df['train__loss'].min()": "Min of train__loss",
     "df['train__loss'].mean()": "Mean of train__loss",
     "df['test__loss'].min()": "Min of test__loss",

@@ -371,6 +371,10 @@ def nature_pre(df, our_name='PC', base_name='BP'):
 
     # rename
     print(df.head())
+    print(df.columns)
+    print(df.isna().sum())
+    print("NaN values in 'Min of test__classification_error':", df['test__classification_error'].isna().sum())
+    print("NaN values in 'learning rate':", df['learning rate'].isna().sum())
     if 'PC' in df.columns:
         df.insert(
             1, 'Rule',
