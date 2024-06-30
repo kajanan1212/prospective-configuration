@@ -149,7 +149,7 @@ config:
 
     model:
         acf: "torch.nn.ReLU"
-        model_type_order: "['Weights', 'PCLayer', 'Acf', 'MaxPool']"
+        model_type_order: "['Dropout', 'Weights', 'Dropout2d', 'BatchNorm', 'PCLayer', 'Acf', 'MaxPool']"
         cnn_layers:
             cnn_0:
                 fn: "torch.nn.Conv2d"
