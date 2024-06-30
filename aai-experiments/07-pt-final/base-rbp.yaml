@@ -281,7 +281,7 @@ config:
         curr_model_path = os.path.join(curr_working_dir, model_filename)
         torch.save(self.model.state_dict(), curr_model_path)
 
-        final_model_path = os.path.join(os.environ.get('RESULTS_DIR'), model_filename)
+        final_model_path = os.path.join(os.environ.get('MODEL_DIR'), model_filename)
         shutil.copy(curr_model_path, final_model_path)
 
     # !debug
