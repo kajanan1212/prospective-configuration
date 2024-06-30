@@ -270,8 +270,9 @@ config:
             **self.config['train_on_batch_kwargs'],
         )
 
-        print(os.environ.get('RESULTS_DIR'))
-        torch.save(self.model.state_dict(), f"os.environ.get('RESULTS_DIR')/pt_rbp_{self.config['batch_size']}.pth")
+        print(1212121212121221212121212121212121212)
+        print(os.getcwd())
+        torch.save(self.model.state_dict(), f"pt_rbp_{self.config['batch_size']}.pth")
 
     # !debug
     log_packs:
