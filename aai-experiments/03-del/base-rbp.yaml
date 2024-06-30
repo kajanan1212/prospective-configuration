@@ -5,7 +5,7 @@ run_or_experiment: "SupervisedLearningTrainable"
 
 resources_per_trial:
     cpu: 1
-    gpu: 0.33
+    gpu: 0
     # debug
     # gpu: 0
 stop:
