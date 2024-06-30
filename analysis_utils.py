@@ -1233,8 +1233,8 @@ def purge_analysis_df(analysis_df, config, is_log_progress=True):
 
         # index row
         row = filter_dataframe_by_dict(analysis_df.dataframe, filter)
-        print("ROW")
-        print(row)
+        print("\nFILTER")
+        print(filter)
 
         # check and warning
         if (row is not None) and (len(row.index) > 0):
