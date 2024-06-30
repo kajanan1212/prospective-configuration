@@ -1145,6 +1145,8 @@ def filter_dataframe_by_dict(dataframe, d):
 
     # if the keys in d are not in dataframe columns, return None
     try:
+        print(dataframe[list(d)])
+        print(pd.Series(d))
         indexes = (dataframe[list(d)] == pd.Series(d))
     except KeyError as e:
         return None
