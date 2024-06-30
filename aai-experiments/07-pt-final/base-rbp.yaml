@@ -212,8 +212,6 @@ config:
 
     model_creation_code: |-
         # import
-        import os
-        import torch
         import predictive_coding as pc
         import torch.optim as optim
         import aai_utils as u
@@ -284,7 +282,7 @@ config:
         torch.save(self.model.state_dict(), curr_model_path)
 
         final_model_path = os.path.join(os.environ.get('RESULTS_DIR'), model_filename)
-        os.rename(curr_model_path, final_model_path)
+        shutil.copy(curr_model_path, final_model_path)
 
     # !debug
     log_packs:
