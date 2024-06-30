@@ -213,11 +213,11 @@ config:
     model_creation_code: |-
         # import
         import os
-        import shutil
         import torch
         import predictive_coding as pc
         import torch.optim as optim
         import aai_utils as u
+        from datetime import datetime
 
         # create model
         self.model = u.create_model(
@@ -271,14 +271,20 @@ config:
             **self.config['train_on_batch_kwargs'],
         )
 
+        now = datetime.now()
+        curr_time_str = now.strftime("%Y%m%d_%H%M%S")
+
         curr_working_dir = os.getcwd()
-        model_filename = 'pt_rbp_{batch_size}.pth'.format(batch_size=self.config['batch_size'])
+        model_filename = 'pt_rbp_{batch_size}_{curr_time_str}.pth'.format(
+            batch_size=self.config['batch_size'],
+            curr_time_str=curr_time_str,
+        )
 
         curr_model_path = os.path.join(curr_working_dir, model_filename)
         torch.save(self.model.state_dict(), curr_model_path)
 
         final_model_path = os.path.join(os.environ.get('RESULTS_DIR'), model_filename)
-        shutil.move(curr_model_path, final_model_path)
+        os.rename(curr_model_path, final_model_path)
 
     # !debug
     log_packs:
