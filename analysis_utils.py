@@ -1233,6 +1233,7 @@ def purge_analysis_df(analysis_df, config, is_log_progress=True):
 
         # index row
         row = filter_dataframe_by_dict(analysis_df.dataframe, filter)
+        analysis_df.dataframe.to_csv("del.csv", index=False)
         print(analysis_df.dataframe)
 
         # check and warning
