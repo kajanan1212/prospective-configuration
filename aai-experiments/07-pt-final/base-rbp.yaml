@@ -213,6 +213,7 @@ config:
     model_creation_code: |-
         # import
         import os
+        import shutil
         import torch
         import predictive_coding as pc
         import torch.optim as optim
@@ -270,9 +271,14 @@ config:
             **self.config['train_on_batch_kwargs'],
         )
 
-        print(1212121212121221212121212121212121212)
-        print(os.getcwd())
-        torch.save(self.model.state_dict(), f"pt_rbp_{self.config['batch_size']}.pth")
+        curr_working_dir = os.getcwd()
+        model_filename = 'pt_rbp_{batch_size}.pth'.format(batch_size=self.config['batch_size'])
+
+        curr_model_path = os.path.join(curr_working_dir, model_filename)
+        torch.save(self.model.state_dict(), curr_model_path)
+
+        final_model_path = os.path.join(os.environ.get('RESULTS_DIR'), model_filename)
+        shutil.move(curr_model_path, final_model_path)
 
     # !debug
     log_packs:
