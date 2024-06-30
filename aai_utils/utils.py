@@ -2,7 +2,16 @@ import predictive_coding as pc
 import torch
 
 
-def create_model(predictive_coding, acf, model_type_order, cnn_layers, linear_layers, loss_fn=''):
+def create_model(
+    predictive_coding,
+    acf,
+    model_type_order,
+    cnn_layers,
+    linear_layers,
+    loss_fn='',
+    pt_model_path=None,
+    trainable_layers=None,
+):
 
     model_type_order = eval(model_type_order)
 
@@ -42,6 +51,8 @@ def create_model(predictive_coding, acf, model_type_order, cnn_layers, linear_la
                 **linear_layer['kwargs']
             )
             model.append(model_)
+
+            in_features_last = linear_layer['kwargs']['in_features']
         else:
             for model_type in model_type_order:
                 if model_type == 'Weights':
@@ -80,6 +91,14 @@ def create_model(predictive_coding, acf, model_type_order, cnn_layers, linear_la
 
     # create sequential
     model = torch.nn.Sequential(*model)
+
+    print(list(model.parameters()))
+    if pt_model_path:
+        model.load_state_dict(torch.load(pt_model_path))
+        model[-1] = torch.nn.Linear(in_features_last, 2, bias=True)
+
+        for param in list(model.parameters())[:-1 * trainable_layers]:
+            param.requires_grad = False
 
     print("MODEL ARCHITECTURE:\n")
     print(model)
