@@ -1,5 +1,4 @@
 import json
-from pathlib import Path
 
 import pandas as pd
 import matplotlib.pyplot as plt
@@ -15,10 +14,10 @@ def load_json(file_path):
 
 
 # Load JSON files
-bp_33 = load_json(Path(__file__).parent.joinpath('rbp_batch_size_33.json'))
-bp_100 = load_json(Path(__file__).parent.joinpath('rbp_batch_size_100.json'))
-pc_33 = load_json(Path(__file__).parent.joinpath('pcc_batch_size_33.json'))
-pc_100 = load_json(Path(__file__).parent.joinpath('pcc_batch_size_100.json'))
+bp_33 = load_json('rbp_batch_size_33.json')
+bp_100 = load_json('rbp_batch_size_100.json')
+pc_33 = load_json('ppc_batch_size_33.json')
+pc_100 = load_json('ppc_batch_size_100.json')
 
 
 # Extract test__classification_error and add additional info
@@ -41,7 +40,7 @@ sns.set(style='whitegrid')
 plt.figure(figsize=(14, 8))
 
 # Use different line styles for batch sizes
-line_styles = {33: '-', 100: '--'}
+line_styles = {33: '', 100: (5, 1)}
 
 # Create the plot
 sns.lineplot(data=df, x='iteration', y='error', hue='model', style='batch_size', palette='deep', dashes=line_styles)
