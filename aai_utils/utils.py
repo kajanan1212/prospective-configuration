@@ -92,7 +92,12 @@ def create_model(
     # create sequential
     model = torch.nn.Sequential(*model)
 
-    print(list(model.parameters()))
+    print("MODEL parameters:\n")
+    print(model.parameters())
+    print("MODEL parameters:\n")
+    print(len(list(model.parameters())))
+    for param in list(model.parameters()):
+        print(param.size())
     if pt_model_path:
         model.load_state_dict(torch.load(pt_model_path))
         model[-1] = torch.nn.Linear(in_features_last, 2, bias=True)
