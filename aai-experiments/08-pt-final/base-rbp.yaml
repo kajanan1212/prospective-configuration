@@ -253,6 +253,15 @@ config:
             **self.config['train_on_batch_kwargs'],
         )
 
+        curr_working_dir = os.getcwd()
+        model_filename = 'pt_rbp.pth'
+
+        curr_model_path = os.path.join(curr_working_dir, model_filename)
+        torch.save(self.model.state_dict(), curr_model_path)
+
+        final_model_path = os.path.join(os.environ.get('MODEL_DIR'), model_filename)
+        shutil.copy(curr_model_path, final_model_path)
+
     # !debug
     log_packs:
         classification_error:
