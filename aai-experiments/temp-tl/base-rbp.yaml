@@ -32,9 +32,9 @@ config:
     # debug
     # num_iterations: 2
 
-    dataset: CIFAR10
+    dataset: 'covid-19-lung-ct-scans'
 
-    partial_num: 100
+    # partial_num: 100
     # debug
     # partial_num: 100
 
@@ -45,28 +45,33 @@ config:
         def data_loader_fn(dataset, train, batch_size, partial_num=-1):
             
             transform = []
+            transform.append(transforms.Grayscale(3))
+            transform.append(transforms.Resize((32, 32)))
             transform.append(transforms.ToTensor())
 
             target_transform = []
             target_transform.append(
                 transforms.Lambda(
-                    lambda idx: utils.np_idx2onehot(idx, 10)
+                    lambda idx: utils.np_idx2onehot(idx, 2)
                 )
             )
 
+            dataset = datasets.ImageFolder(
+                f'{os.environ.get('DATA_DIR')}/{dataset}',
+                transform=transforms.Compose(transform),
+                target_transform=transforms.Compose(target_transform)
+            )
+            train_size = int(0.8 * len(dataset))
+            test_size = len(dataset) - train_size
+            train_dataset, test_dataset = torch.utils.data.random_split(dataset, [train_size, test_size])
+
+            if train:
+                data_subset = train_dataset
+            else:
+                data_subset = test_dataset
+
             return DataLoader(
-                dataset_utils.partial_dateset(
-                    eval(
-                        'datasets.{}'.format(dataset)
-                    )(
-                        os.environ.get('DATA_DIR'),
-                        train=train,
-                        download=False,
-                        transform=transforms.Compose(transform),
-                        target_transform=transforms.Compose(target_transform)
-                    ),
-                    partial_num=partial_num,
-                ),
+                data_subset,
                 batch_size=batch_size,
                 num_workers=1,
                 pin_memory=True,
@@ -81,7 +86,6 @@ config:
                     dataset=self.config['dataset'],
                     train=True,
                     batch_size=self.config['batch_size'],
-                    partial_num=self.config['partial_num'],
                 )
             do: "['learn']"
         # !debug
