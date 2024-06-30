@@ -187,14 +187,17 @@ config:
                     stride: 1
                     padding: 1
                     bias: False
+            cnn_4:
+                fn: "torch.nn.Conv2d"
+                kwargs:
+                    in_channels: 512
+                    out_channels: 1024
+                    kernel_size: 3
+                    stride: 1
+                    padding: 1
+                    bias: False
         linear_layers:
             linear_0:
-                fn: "torch.nn.Linear"
-                kwargs:
-                    in_features: 2048
-                    out_features: 1024
-                    bias: True
-            linear_1:
                 fn: "torch.nn.Linear"
                 kwargs:
                     in_features: 1024
