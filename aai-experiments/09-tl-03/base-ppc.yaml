@@ -208,7 +208,7 @@ config:
         self.model = u.create_model(
             self.config['predictive_coding'],
             **self.config['model'],
-            pt_model_path=f'{os.environ.get("PT_MODEL_DIR")}/pt_ppc.pth',
+            pt_model_path='/content/drive/MyDrive/results/08-pt-final/model/pt_ppc.pth',
             trainable_layers=4,
         ).to(self.device)
 
