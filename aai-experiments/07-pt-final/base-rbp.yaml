@@ -269,13 +269,9 @@ config:
             **self.config['train_on_batch_kwargs'],
         )
 
-        now = datetime.now()
-        curr_time_str = now.strftime("%Y%m%d_%H%M%S")
-
         curr_working_dir = os.getcwd()
-        model_filename = 'pt_rbp_{batch_size}_{curr_time_str}.pth'.format(
-            batch_size=self.config['batch_size'],
-            curr_time_str=curr_time_str,
+        model_filename = 'pt_rbp_{batch_size}.pth'.format(
+            batch_size=self.config['batch_size']
         )
 
         curr_model_path = os.path.join(curr_working_dir, model_filename)
