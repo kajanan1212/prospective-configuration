@@ -34,11 +34,14 @@ config:
 
     dataset: CIFAR10
 
-    partial_num: 100
+    partial_num: 500
     # debug
     # partial_num: 100
 
-    batch_size: 20
+    batch_size:
+        grid_search:
+            - 20
+            - 100
 
     # exec-code before/after the setup of the specified Trainable
     before_DatasetLearningTrainable_setup_code: |-
@@ -114,9 +117,6 @@ config:
         optimizer_p_kwargs:
             lr:
                 grid_search:
-                    - 0.1
-                    - 0.01
-                    - 0.001
                     - 0.0001
                     # - 0.005
                     # - 0.001
@@ -212,6 +212,8 @@ config:
 
     model_creation_code: |-
         # import
+        import os
+        import torch
         import predictive_coding as pc
         import torch.optim as optim
         import aai_utils as u
@@ -267,6 +269,8 @@ config:
             },
             **self.config['train_on_batch_kwargs'],
         )
+
+        torch.save(self.model.state_dict(), f"os.environ.get('RESULTS_DIR')/pt_rbp_{self.config['batch_size']}.pth")
 
     # !debug
     log_packs:
