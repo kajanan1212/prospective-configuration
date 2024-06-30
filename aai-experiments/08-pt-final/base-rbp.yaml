@@ -28,17 +28,17 @@ config:
             # - 698841058
             # - 2283198659
 
-    num_iterations: 21
+    num_iterations: 42
     # debug
     # num_iterations: 2
 
     dataset: CIFAR10
 
-    partial_num: 100
+    partial_num: 500
     # debug
     # partial_num: 100
 
-    batch_size: 20
+    batch_size: 100
 
     # exec-code before/after the setup of the specified Trainable
     before_DatasetLearningTrainable_setup_code: |-
@@ -114,9 +114,6 @@ config:
         optimizer_p_kwargs:
             lr:
                 grid_search:
-                    - 0.1
-                    - 0.01
-                    - 0.001
                     - 0.0001
                     # - 0.005
                     # - 0.001
