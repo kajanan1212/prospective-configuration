@@ -93,7 +93,7 @@ def create_model(
     model = torch.nn.Sequential(*model)
 
     if pt_model_path:
-        model.load_state_dict(torch.load(pt_model_path))
+        model.load_state_dict(torch.load(pt_model_path), strict=False)
         model[-1] = torch.nn.Linear(in_features_last, 2, bias=True)
 
         for param in list(model.parameters())[:-1 * trainable_layers]:
