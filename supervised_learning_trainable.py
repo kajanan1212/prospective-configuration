@@ -2,6 +2,7 @@ from __future__ import print_function
 
 import os
 import copy
+import shutil
 import pprint
 import torch
 import numpy as np

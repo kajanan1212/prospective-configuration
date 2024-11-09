@@ -32,7 +32,7 @@ if __name__ == '__main__':
     args = parser.parse_args()
 
     # load config
-    with open('experiments/{}.yaml'.format(args.experiment_config)) as f:
+    with open('aai-experiments/{}.yaml'.format(args.experiment_config)) as f:
         config = yaml.safe_load(f)
     # # warning after load config
     logger.warning(
@@ -88,7 +88,7 @@ if __name__ == '__main__':
     else:
         config.pop("ray_paradigm")
 
-    local_dir = os.path.join(os.environ.get('RESULTS_DIR'))
+    storage_path = os.path.join(os.environ.get('RESULTS_DIR'))
 
     name = args.experiment_config.split('/')[0]
 
@@ -130,8 +130,8 @@ if __name__ == '__main__':
                     ))
                     config['resources_per_trial']['gpu'] = 0.125
 
-        # config['local_dir']
-        config['local_dir'] = local_dir
+        # config['storage_path']
+        config['storage_path'] = storage_path
 
         # config['run_or_experiment']
         # # depreciation warnings

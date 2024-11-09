@@ -1,5 +1,7 @@
 .tmp.driveupload
 
+.idea
+
 # log files by wandb
 wandb/
 
